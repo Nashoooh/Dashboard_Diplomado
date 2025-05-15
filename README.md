@@ -1,6 +1,6 @@
 # Dashboard de Ventas con Streamlit
 
-Este proyecto es un dashboard interactivo desarrollado con **Streamlit** para analizar datos de ventas. El archivo de datos `data.csv` debe estar ubicado en la raíz del proyecto.
+Este proyecto es un dashboard interactivo desarrollado con **Streamlit** para analizar datos de ventas. El archivo de datos `data.csv` debe estar ubicado en el directorio data, en la raiz del proyecto.
 
 ## Requisitos
 
