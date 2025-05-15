@@ -28,7 +28,7 @@ def load_data():
     ventasHeader = [
         'ID de Factura', 'Sucursal', 'Ciudad', 'Tipo de Cliente', 'Género', 'Línea de Producto', 'Precio Unitario', 'Cantidad', 'Impuesto 5%', 'Total',
         'Fecha', 'Hora', 'Método de Pago', 'Costo de Bienes Vendidos', 'Porcentaje de Margen Bruto', 'Ingreso Bruto', 'Calificación']
-    df_ventas = pd.read_csv(r'C:\Users\Ignacio\Desktop\Streamlit\data.csv', sep=',', header=0, names=ventasHeader)
+    df_ventas = pd.read_csv('data/data.csv', sep=',', header=0, names=ventasHeader)  # Ruta relativa
 
     return df_ventas
 
