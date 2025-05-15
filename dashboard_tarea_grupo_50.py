@@ -6,13 +6,19 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import io
 import locale
+import platform
 import plotly.graph_objects as go
 
 # -------------------------- Configuración de Streamlit -----------------
 
-# Configurar el idioma local a español
-# locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')  # Para sistemas basados en Unix (Linux/Mac)
-locale.setlocale(locale.LC_TIME, 'Spanish_Spain.1252')  # Para Windows
+# Configurar el idioma local a Español según el sistema operativo
+try:
+    if platform.system() == "Windows":
+        locale.setlocale(locale.LC_TIME, 'Spanish_Spain.1252')  # Para Windows
+    else:
+        locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')  # Para Linux/Mac
+except locale.Error:
+    print("Advertencia: La configuración regional no es compatible con este sistema.")
 
 # -------------------------------------------------------------------------------------
 
