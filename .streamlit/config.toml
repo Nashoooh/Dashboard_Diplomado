@@ -1,0 +1,7 @@
+[theme]
+base = "light"
+primaryColor = "#1E90FF"  # Azul para botones y elementos interactivos
+backgroundColor = "#FFFFFF"  # Blanco para el fondo
+secondaryBackgroundColor = "#F0F2F6"  # Gris claro para secciones secundarias
+textColor = "#000000"  # Negro para el texto
+font = "sans serif"  # Fuente predeterminada
