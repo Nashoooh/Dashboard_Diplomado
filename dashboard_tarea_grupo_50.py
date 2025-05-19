@@ -34,116 +34,10 @@ def load_data():
 
 df_ventas = load_data()
 
+# ----------------------------------- DASHABOARD ---------------------------------------
 # Título
 st.title("Dashboard de Ventas")
 
-# -------------------------- Analisis Exploratorio ----------------------
-st.subheader("Análisis Exploratorio")
-
-if st.checkbox("Mostrar exploración inicial del DataFrame", key="analisis_exploratorio"):
-    st.subheader("Información del DataFrame")
-    
-    # Usar StringIO como buffer
-    buffer = io.StringIO()
-    df_ventas.info(buf=buffer)
-    info_str = buffer.getvalue()
-    st.text(info_str)
-
-    st.subheader("Estadísticas descriptivas")
-    st.write(df_ventas.describe())
-
-    st.subheader("Nombres de las columnas")
-    st.write(df_ventas.columns.tolist())
-
-# -------------------------- Variables Relevantes ----------------------
-st.subheader("Variables Relevantes")
-
-if st.checkbox("Mostrar variables relevantes y su justificación", key="variables_relevantes"):
-    # Definir los datos como una lista de tuplas
-    datos = [
-        ("ID de Factura", "Único identificador de cada transacción, útil para evitar duplicados y rastrear operaciones individuales"),
-        ("Sucursal", "Permite analizar el desempeño por ubicación física de la empresa"),
-        ("Ciudad", "Ayuda a entender patrones geográficos de ventas y preferencias regionales"),
-        ("Tipo de Cliente", "Permite segmentar a los clientes y evaluar diferencias en comportamiento de compra"),
-        ("Género", "Útil para análisis demográfico y personalización de estrategias de marketing"),
-        ("Línea de Producto", "Es clave para medir el rendimiento de categorías de productos y optimizar inventario"),
-        ("Precio Unitario", "Fundamental para calcular ingresos y márgenes por producto"),
-        ("Cantidad", "Muestra el volumen vendido, lo que ayuda a identificar productos populares o estacionales"),
-        ("Total", "Indicador directo del valor de venta final, esencial para medir ingresos totales"),
-        ("Fecha", "Permite realizar análisis temporales: ventas por día, mes, hora pico, etc"),
-        ("Hora", "Permite realizar análisis de patrones horarios de compra"),
-        ("Método de Pago", "Informa sobre preferencias de pago de los clientes, útil para decisiones operativas y financieras"),
-        ("Ingreso Bruto", "Mide la rentabilidad antes de costos adicionales; útil para comparar líneas de producto o sucursales")
-    ]
-
-    # Crear el DataFrame
-    df_variables_relevantes = pd.DataFrame(datos, columns=["Variable", "Justificación"])
-
-    # Mostrar el DataFrame en Streamlit
-    st.write(df_variables_relevantes)
-
-# -------------------------- Preguntas de Negocio ----------------------
-st.subheader("Preguntas de Negocio")
-
-if st.checkbox("Mostrar preguntas de negocio", key="preguntas_negocio"):
-
-    # Lista de tuplas: (Variable, Pregunta)
-    datos = [
-        # 1. ID de Factura
-        ("ID de Factura", "¿Existen transacciones duplicadas?"),
-        ("ID de Factura", "¿Cómo se distribuyen las ventas por número de factura?"),
-
-        # 2. Sucursal / Ciudad
-        ("Sucursal / Ciudad", "¿Cuál sucursal tiene mejor desempeño?"),
-        ("Sucursal / Ciudad", "¿Hay diferencias significativas en las preferencias de producto entre ciudades?"),
-
-        # 3. Tipo de Cliente
-        ("Tipo de Cliente", "¿Qué tipo de cliente genera más ingresos?"),
-        ("Tipo de Cliente", "¿Existen patrones de compra distintos según el tipo de cliente?"),
-
-        # 4. Género
-        ("Género", "¿Existe predominio de un género en ciertos tipos de productos?"),
-        ("Género", "¿Cómo diseñar estrategias de marketing basadas en género?"),
-
-        # 5. Línea de Producto
-        ("Línea de Producto", "¿Qué categorías generan mayores ingresos o margen bruto?"),
-        ("Línea de Producto", "¿Qué productos tienen mayor rotación?"),
-
-        # 6. Precio Unitario / Cantidad / Total
-        ("Precio Unitario / Cantidad / Total", "¿Cuáles son los productos más vendidos?"),
-        ("Precio Unitario / Cantidad / Total", "¿Cómo afecta el precio al volumen de ventas?"),
-        ("Precio Unitario / Cantidad / Total", "¿Cuál es el promedio de gasto por cliente?"),
-
-        # 7. Fecha / Hora
-        ("Fecha / Hora", "¿En qué días/horas hay mayor volumen de ventas?"),
-        ("Fecha / Hora", "¿Hay estacionalidad en ciertas líneas de producto?"),
-
-        # 8. Método de Pago
-        ("Método de Pago", "¿Cuál es el método de pago más usado?"),
-        ("Método de Pago", "¿Hay relación entre método de pago y monto total de la factura?"),
-
-        # 9. Ingreso Bruto
-        ("Ingreso Bruto", "¿Cuál línea de producto genera más ganancias?"),
-        ("Ingreso Bruto", "¿Cómo varía la rentabilidad por sucursal?"),
-
-        # 10. Calificación
-        ("Calificación", "¿Existe una correlación entre calificación y monto gastado?"),
-        ("Calificación", "¿Las sucursales con mejor servicio también tienen mayores ventas?")
-    ]
-
-    # Creamos el DataFrame
-    df_preguntas_por_variable = pd.DataFrame(datos, columns=["Variable", "Pregunta"])
-
-    # Aplicar estilo: alinear a la izquierda y centrar encabezado
-    styled_df = df_preguntas_por_variable.style.set_properties(**{'text-align': 'left'}).set_table_styles([
-        {'selector': 'th', 'props': [('text-align', 'center')]},
-    ])
-
-    # Mostrar el DataFrame con estilo
-    st.write(styled_df)
-
-
-# ----------------------------------- DASHABOARD ---------------------------------------
 # ---------------- 1. Evolución de Ventas Totales a lo largo del tiempo -----------------
 
 st.subheader("Evolución de ventas totales a lo largo del tiempo")
@@ -505,22 +399,23 @@ else:
 
 
 # ---------------- 8. Composición del Ingreso Bruto por Sucursal y Línea de Producto ------------------------------
-st.subheader("Ingreso Bruto por Sucursal y Línea de Producto")
+
+st.subheader("Ingreso Bruto por Sucursal y Línea de Producto (3D)")
 
 # Traducir los valores de las columnas
 pivot = df_ventas.groupby(['Sucursal', 'Línea de Producto'])['Ingreso Bruto'].sum().reset_index()
 
-# Crear el gráfico de barras con Plotly
-fig = px.bar(
+fig_3d = px.scatter_3d(
     pivot,
     x='Sucursal',
-    y='Ingreso Bruto',
+    y='Línea de Producto',
+    z='Ingreso Bruto',
     color='Línea de Producto',
-    title="Ingreso Bruto por Sucursal y Línea de Producto"
+    size='Ingreso Bruto',
+    title="Ingreso Bruto por Sucursal y Línea de Producto (3D)"
 )
 
-# Configurar el diseño del gráfico
-fig.update_layout(
+fig_3d.update_layout(
     title=dict(
         text="Ingreso Bruto por Sucursal y Línea de Producto",
         x=0.5,
@@ -548,5 +443,4 @@ fig.update_layout(
     )
 )
 
-# Mostrar el gráfico en Streamlit
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig_3d, use_container_width=True)
