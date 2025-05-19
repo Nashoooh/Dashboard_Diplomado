@@ -38,6 +38,8 @@ df_ventas = load_data()
 # Título
 st.title("Dashboard de Ventas")
 
+
+# ----------------------------------- DASHABOARD ---------------------------------------
 # ---------------- 1. Evolución de Ventas Totales a lo largo del tiempo -----------------
 
 st.subheader("Evolución de ventas totales a lo largo del tiempo")
